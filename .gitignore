@@ -52,3 +52,5 @@ Temporary Items
 *.Log*
 *.messages
 config.lua
+Config.xml
+Config*

@@ -10,6 +10,7 @@ mqtt_password = ""
 mqtt_client_id = ""
 
 --dht module
+--WeMos D1 mini pin D4 is GPIO2 in ESP8266 but in nodeMCU is IOindex 4
 dht_pin = 2  -- Pin connected to DHT22 sensor
 dht_temp_calc = 0  -- Calculated temperature
 dht_humi_calc = 0  -- Calculated humidity
@@ -22,6 +23,5 @@ dsleep_time = 60000 --sleep time in us
 --sensor name
 sensor_name="IN-HOUSE"
 sensor_id=node.chipid()
-sensor_pin=2 --WeMos D1 mini pin D4 is GPIO2 in ESP8266
 -- Status Message
 print("Global variables loaded")

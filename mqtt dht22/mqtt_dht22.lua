@@ -11,7 +11,7 @@ m = mqtt.Client(sensor_id, 120, mqtt_username, mqtt_password)
 
 -- Read out DHT22 sensor using dht module
 function func_read_dht()
-  status, temp, humi, temp_dec, humi_dec = dht.read(sensor_pin)
+  status, temp, humi, temp_dec, humi_dec = dht.read(dht_pin)
   if( status == dht.OK ) then
 -- Integer firmware using this example
     print("DHT Temperature: "..math.floor(temp).."."..temp_dec.." C")

@@ -54,3 +54,4 @@ Temporary Items
 config.lua
 Config.xml
 Config*
+mqtt dht22/config.lua

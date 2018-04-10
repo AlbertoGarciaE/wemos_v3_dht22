@@ -1,0 +1,2 @@
+user1:$6$aTEpYgSr3KjeMgOV$rP976sDs32vZAe51xcwcxIPGvV/94Dt5t0iHMJYMxD0LXs3rrGzBmzMVPoLVm5W/R0KTN0Lkw9nb/gIYmkDtDw==
+sensor_dht22:$6$JDY4cCTw3TjjMy7e$lP7IFmeyMc/A6/FBAATDlMwcistrnuc5u2KzsSXNFE2Vt769nf70op4T732r1vn0pKd1Px+VdCPpL1mTmVLqoA==

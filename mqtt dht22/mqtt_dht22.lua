@@ -33,13 +33,14 @@ function func_mqtt_pub()
   m:connect(mqtt_broker_ip, mqtt_broker_port, 0,0, function(client) print("Connected to MQTT broker")
     m:publish(mqtt_topic_temp,mqtt_temp,0,0, function(client) print("Temp message published")
       m:publish(mqtt_topic_humi,mqtt_humi,0,0, function(client) print("Humi message published")
-        -- print("Going into deep sleep mode for "..(dsleep_time/1000).." seconds.")
+        m:close()
+		-- print("Going into deep sleep mode for "..(dsleep_time/1000).." seconds.")
         -- node.dsleep(dsleep_time*1000)  -- This function can only be used in the condition that esp8266 PIN32(RST) and PIN8(XPD_DCDC aka GPIO16) are connected together.
       end)
     end)
   end,
   function(client, reason) print("Connect to MQTT broker failed with reason: " .. reason)
-      tmr.alarm(2,10 * 1000, tmr.ALARM_SINGLE, func_mqtt_pub)
+      tmr.alarm(2,mqtt_retry_period * 1000, tmr.ALARM_SINGLE, func_mqtt_pub)
   end)
 end
 
@@ -58,4 +59,4 @@ function func_exec_loop()
   end
 end
 
-tmr.alarm(1,10 * 1000,tmr.ALARM_AUTO,function() func_exec_loop() end)
+tmr.alarm(1,mqtt_pub_period * 1000,tmr.ALARM_AUTO,function() func_exec_loop() end)

@@ -12,7 +12,7 @@ mqtt_temp = 0      -- Temperature for publication
 mqtt_humi = 0      -- Humidity for publication
 
 --sensor reading interval
-dsleep_time = 8000 --sleep time in μs
+dsleep_time = 58000 --sleep time in μs
 
 --sensor name
 sensor_name="inhouse"
@@ -25,6 +25,7 @@ mqtt_password = "mqtt_password"
 mqtt_client_id = sensor_name.."_"..node.chipid()
 mqtt_topic_temp = sensor_name.."/temp"
 mqtt_topic_humi = sensor_name.."/humi"
-
+mqtt_pub_period = 60
+mqtt_retry_period = 10
 -- Status Message
 print("Global variables loaded")

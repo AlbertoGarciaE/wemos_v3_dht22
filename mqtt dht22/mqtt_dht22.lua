@@ -3,11 +3,11 @@ dofile("config.lua")
 
 -- Connect to the wifi network using wifi module
 wifi.setmode(wifi.STATION)
-wifi.sta.config(wifi_ssid, wifi_password)
+wifi.sta.config(wifi_cfg)
 wifi.sta.connect()
 
 -- Establish MQTT client
-m = mqtt.Client(sensor_id, 120, mqtt_username, mqtt_password)
+m = mqtt.Client(mqtt_client_id, 120, mqtt_username, mqtt_password)
 
 -- Read out DHT22 sensor using dht module
 function func_read_dht()
@@ -30,13 +30,16 @@ end
 
 -- Publish temperature readings and activate deep sleep
 function func_mqtt_pub()
-  m:connect(mqtt_broker_ip, mqtt_broker_port, 0, function(client) print("Connected to MQTT broker")
-    m:publish(sensor_name.."/temp",mqtt_temp,0,0, function(client) print("Temp message published")
-      m:publish(sensor_name.."/humi",mqtt_humi,0,0, function(client) print("Humi message published")
-        print("Going into deep sleep mode for "..(dsleep_time/1000).." seconds.")
-        node.dsleep(dsleep_time*1000)
+  m:connect(mqtt_broker_ip, mqtt_broker_port, 0,0, function(client) print("Connected to MQTT broker")
+    m:publish(mqtt_topic_temp,mqtt_temp,0,0, function(client) print("Temp message published")
+      m:publish(mqtt_topic_humi,mqtt_humi,0,0, function(client) print("Humi message published")
+        -- print("Going into deep sleep mode for "..(dsleep_time/1000).." seconds.")
+        -- node.dsleep(dsleep_time*1000)  -- This function can only be used in the condition that esp8266 PIN32(RST) and PIN8(XPD_DCDC aka GPIO16) are connected together.
       end)
     end)
+  end,
+  function(client, reason) print("Connect to MQTT broker failed with reason: " .. reason)
+      tmr.alarm(2,10 * 1000, tmr.ALARM_SINGLE, func_mqtt_pub)
   end)
 end
 
@@ -44,12 +47,15 @@ end
 function func_exec_loop()
   if wifi.sta.status() == 5 then  --STA_GOTIP
     print("Connected to "..wifi.sta.getip())
+    print("Retrieve sensor data")
     func_read_dht() --Retrieve sensor data
+    print("Publish MQTT messages and go to sleep")
     func_mqtt_pub() --Publish MQTT messages and go to sleep
-    tmr.stop(1) --Exit loop
+    -- print("Exit loop, remove it for continuous running state")
+    -- tmr.stop(1) --Exit loop
   else
     print("Still connecting...")
   end
 end
 
-tmr.alarm(1,500,tmr.ALARM_AUTO,function() func_exec_loop() end)
+tmr.alarm(1,10 * 1000,tmr.ALARM_AUTO,function() func_exec_loop() end)

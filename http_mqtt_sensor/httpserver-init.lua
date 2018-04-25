@@ -34,11 +34,11 @@ if (wifi.getmode() == wifi.STATION) or (wifi.getmode() == wifi.STATIONAP) then
       local ip = wifi.sta.getip()
       if (not ip) then ip = wifi.ap.getip() end
       if ip == nil then
-         print("No IP after a while. Clean config and restar...")
+         print("No IP after a while. Clean config and restart...")
 		 file.remove("wifi_station_config.lc")
          node.restart()
       else
-         --print("Successfully got IP. Good, no need to restart.")
+         print("Successfully got IP. Good, no need to restart.")
          watchdogTimer:unregister()
       end
    end)

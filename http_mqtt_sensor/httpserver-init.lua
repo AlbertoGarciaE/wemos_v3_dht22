@@ -25,6 +25,7 @@ if (wifi.getmode() == wifi.STATION) or (wifi.getmode() == wifi.STATIONAP) then
          node.restart()
       end)
 	  -- Launch MQTT script
+	  print("Launch MQTT script")
 	  dofile("mqtt_sensor.lc")
    end)
 

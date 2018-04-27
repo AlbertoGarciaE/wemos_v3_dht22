@@ -18,14 +18,14 @@ if (wifi.getmode() == wifi.STATION) or (wifi.getmode() == wifi.STATIONAP) then
    -- Connect to the WiFi access point and start server once connected.
    -- If the server loses connectivity, server will restart.
    wifi.eventmon.register(wifi.eventmon.STA_GOT_IP, function(args)
-      print("Connected to WiFi Access Point. Got IP: " .. args["IP"])
+      print("Connected to WiFi Access Point. Got IP: " .. args["IP"].." Gateway: " ..args["gateway"])
       startServer(args["IP"])
       wifi.eventmon.register(wifi.eventmon.STA_DISCONNECTED, function(args)
          print("Lost connectivity! Restarting...")
          node.restart()
       end)
 	  -- Launch MQTT script
-	  dofile("mqtt_sensor.lua")
+	  dofile("mqtt_sensor.lc")
    end)
 
    -- What if after a while (30 seconds) we didn't connect? Restart and keep trying.

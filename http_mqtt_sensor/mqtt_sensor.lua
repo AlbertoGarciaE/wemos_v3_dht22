@@ -50,7 +50,7 @@ if file.exists("mqtt_client_config.lc") then
     local function func_exec_loop()
     	print("Retrieve sensor data")
     	temp, humi = func_read_dht() --Retrieve sensor data
-    	data = "{'temperature': "..temp.. ",'humidity': "..humi.." }"
+    	data = '{"temperature": '..temp.. ',"humidity": '..humi..' }'
     	print("Publish MQTT messages and go to sleep")
     	func_mqtt_pub(data) --Publish MQTT messages and go to sleep
     end
